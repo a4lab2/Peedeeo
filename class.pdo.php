@@ -2,32 +2,31 @@
 class PDOBROKER
 {
      
-    private $host ;
-    private $database;
-    private $username;
-    private $password;
-    private $errorMode;
-    public $initCon; 
+    public $host ;
+    public $database;
+    public $username;
+    public $password;
+    public $errorMode;
+    public $fetchMode;
+
     public function __construct($h,$d,$u,$p)
      {
-         $this->$host=$h;
-         $this->$database=$d;
-         $this->$username=$u;
-         $this->$password=$p;
-        //  $this->$errorMode=$e;
+         $this->host=$h;
+         $this->database=$d;
+         $this->username=$u;
+         $this->password=$p;
      }
 
-     public function setErrorMode($errMode){
-         
+     public function setErrorMode($errorMode){
         switch($errorMode){
             case 1:
-            return PDO::ERRMODE_SILENT;
+            return $this->errorMode=PDO::ERRMODE_SILENT;
             case 2;
-            return PDO::ERRMODE_WARNING;
+            return $this->errorMode=PDO::ERRMODE_WARNING;
             case 3:
-            return PDO::ERRMODE_EXCEPTION;
+            return $this->errorMode=PDO::ERRMODE_EXCEPTION;
             default:
-            return PDO::ERRMODE_SILENT;
+            return $this->errorMode=PDO::ERRMODE_EXCEPTION;
         } 
      }
 
@@ -35,28 +34,25 @@ class PDOBROKER
          
         switch($fetchMode){
             case 1:
-            return PDO::FETCH_BOTH;
+            return $this->fetchMode=PDO::FETCH_BOTH;
             case 2;
-            return PDO::FETCH_NUM;
+            return $this->fetchMode=PDO::FETCH_NUM;
             case 3:
-            return PDO::FETCH_ASSOC;
+            return $this->fetchMode=PDO::FETCH_ASSOC;
+            case 4:
+            return $this->fetchMode=PDO::FETCH_OBJ;
             default:
-            return PDO::FETCH_OBJ;
+            return $this->fetchMode=PDO::FETCH_ASSOC;
         } 
      }
-    public function shake($eM,$fM)
+    public function shake()
 	{
         try
 		{
-            $errorMode=setErrorMode($eM);
-            $fetchMode=setFetchMode($fM);
             $this->initCon = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->database, $this->username, $this->password);
-
-            //Just the error attribute for now
-            //Force column names to a specific case
-            $this->initCon->setAttribute(PDO::ATTR_ERRMODE,$errorMode);	
+            $this->initCon->setAttribute(PDO::ATTR_ERRMODE,$this->errorMode);	
             //set fetch mode
-            $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $fetchMode);
+            $this->initCon->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $this->fetchMode);
         }
 		catch(PDOException $exception)
 		{

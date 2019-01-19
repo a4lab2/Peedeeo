@@ -1,0 +1,14 @@
+//Just Drop into project and use connection
+        $db=new PDOBROKER("localhost","dbtester","root","");
+        $db->setErrorMode(1);
+        $db->setFetchMode(3);
+
+        //where db connection is to be used
+        $connection=$db->shake();
+
+//Drop the PDOBROKER into the depency container if you are using containers
+$db=new PDOBROKER("localhost","dbtester","root","");
+        $db->setErrorMode(1);
+        $db->setFetchMode(3);
+        $this->connection=$db->shake();
+        
