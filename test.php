@@ -1,0 +1,5 @@
+<?php
+require_once "class.dbTest.php";
+
+$x=new USER();
+var_dump($x->addTeam("a","b","c","d"));
